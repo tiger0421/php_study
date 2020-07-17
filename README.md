@@ -17,3 +17,6 @@ If you saved php script on host in `C:\Users\user\php_study\scripts\Hello.php`,
 access `localhost:80/Hello.php` with your web browser.  
   
 Also, you can debug with VS code to use an extension, "php server".
+
+## License
+MIT
