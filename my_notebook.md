@@ -51,7 +51,7 @@ $_POST
 - Point
     1. <form>のmethod="post"であること
     1. <input type>のnameを$_POSTに渡すこと
-`
+```
 <body>
     <form action="" method="post">
         <input type="text" name="str">
@@ -62,7 +62,7 @@ $_POST
             echo $str;
     ?>
 </body>
-`
+```
 
 ### 補足
 > GETはリソースを「取得」する際に仕様
