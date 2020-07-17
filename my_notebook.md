@@ -71,6 +71,29 @@ $_POST
 
 </details>
 
+<details>
+<summary>array</summary>
+
+### Example
+`
+$weekday = array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+`
+もしくはarray()の短縮構文を用いて以下のように書ける．  
+```
+$weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+$weekday = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+];
+```
+</details>
+
 
 <details>
 <summary>title</summary>
