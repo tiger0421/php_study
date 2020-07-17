@@ -12,7 +12,7 @@ I create this repository to study PHP.
 $ docker run -it --rm -v C:\Users\user\php_study\scripts:/var/www/html -p 80:80 php:7.2-apache
 `
  
-2. Access your container
+1. Execution of your script  
 If you saved php script on host in `C:\Users\user\php_study\scripts\Hello.php`,  
 access `localhost:80/Hello.php` with your web browser.  
   
