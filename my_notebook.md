@@ -146,6 +146,50 @@ array(7) {
 
 </details>
 
+<details>
+<summary>ファイル操作</summary>
+
+- ファイルを開くとき  
+    `
+    $fp = fopen(FILE_NAME, MODE);
+    `
+- ファイルへの書き込み  
+    `
+    fwrite($fp, $str);
+    `
+- ファイルを閉じるとき  
+    `
+    fclose($fp);
+    `
+
+### Example
+```
+<?php
+    $str = "Hello World" . PHP_EOL;
+    $filename="TargetFile.txt";
+    $fp = fopen($filename,"a");
+    fwrite($fp,$str);
+    fclose($fp);
+?>
+```
+
+### modeについて
+[php fopen](https://www.php.net/manual/ja/function.fopen.php)
+
+</details>
+
+<details>
+<summary>PHP_EOL</summary>
+
+### PHP_EOLについて
+OSによって改行文字は異なるのでOSに合わせた改行文字を書きだす必要がある．  
+そこで用いるのがPHP_EOL  
+
+| OS | 改行コード文字 |
+|:--:| :--:|
+|Windows|\r\n|
+|Mac, Linux|\n|
+</details>
 
 <details>
 <summary>title</summary>
