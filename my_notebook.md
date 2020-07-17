@@ -72,7 +72,8 @@ $_POST
 </details>
 
 <details>
-<summary>array</summary>
+<summary>配列とリスト</summary>
+array()
 
 ### Example
 `
@@ -92,6 +93,57 @@ $weekday = [
     "Saturday"
 ];
 ```
+
+### Example2
+リストの例
+```
+array(
+    key1 => value1,
+    key2 => value2,
+);
+```
+一部にkeyをつけることも可能
+```
+<?php
+$items = [
+    "Sunday",
+    "Monday",
+    "foo" => "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+];
+
+
+    echo $items[0] . "<br>";
+    echo $items[1] . "<br>";
+    echo $items["foo"] . "<br>";
+    echo $items[2] . "<br>";
+    echo $items[3] . "<br>";
+    echo "<br>;
+    echo var_dump($items);
+?>
+```
+- 実行結果  
+```
+Sunday
+Monday
+Tuesday
+Wednesday
+Thursday
+
+array(7) { 
+    [0]=> "Sunday"
+    [1]=> "Monday"
+    ["foo"]=> "Tuesday"
+    [2]=> "Wednesday"
+    [3]=> "Thursday"
+    [4]=> "Friday"
+    [5]=> "Saturday"
+}
+```
+
 </details>
 
 
