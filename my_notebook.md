@@ -1,6 +1,6 @@
 ## my_notebook
 <details>
-<summary>date("str $format", int $timestamp);</summary>
+<summary>date</summary>
 
 現時刻が 2020/01/08 18:10:05 のとき  
 
@@ -217,6 +217,28 @@ if(file_exists($filename)){
     }
 }
 ```
+</details>
+
+<details>
+<summary>文字分割</summary>
+
+`
+explode(string $delimiter, string $string [, int $limit_num]);
+`
+
+```
+$delimiter  =   区切り文字
+$string     =   対象の文字列
+```
+
+### Example
+```
+$string = "a,b,c,d";
+$alphabet = explode(",", $string);
+print_r($alphabet);
+// => Array ( [0] => a [1] => b [2] => c [3] => d )
+```
+参考（https://blog.codecamp.jp/php-explode）  
 </details>
 
 
