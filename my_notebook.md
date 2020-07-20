@@ -290,9 +290,17 @@ PDOはクラスで実装されているため，実行するためにはイン�
 
 ### Code
 <details>
-<summary></summary>
+<summary>PDO</summary>
 
-
+```
+<?php
+	// setting for DataBase
+	$dsn = 'mysql:dbname=DB_NAME;host=localhost';
+	$user = USER;
+	$password = PASSWORD;
+	$pdo = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
+?>
+```
 </details>
 
 
