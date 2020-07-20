@@ -446,6 +446,7 @@ table_option:
 ### Reference
 - [CREATE構文公式](https://dev.mysql.com/doc/refman/5.6/ja/create-table.html)
 - [VARCHARとTEXTの違い](http://lxyuma.hatenablog.com/entry/2015/08/15/131309)
+- [PDOでテーブル作成](https://gray-code.com/php/create-table-by-using-pdo/)
 
 </details>
 
