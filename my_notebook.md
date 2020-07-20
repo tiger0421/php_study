@@ -1,4 +1,6 @@
-## my_notebook
+# my_notebook
+
+## PHP
 <details>
 <summary>date</summary>
 
@@ -34,9 +36,11 @@ time is 2020/01/08 18:10:15
 <details>
 <summary>var_dump</summary>
 
+変数に関する情報をダンプする．  
+つまり，boolや配列の中身などを表示できる.  
 return bool(true) or bool(false)  
   
-###Example
+### Example
 `
 $flg = var_dump(1>3);
 `
@@ -240,6 +244,58 @@ print_r($alphabet);
 ```
 参考（https://blog.codecamp.jp/php-explode）  
 </details>
+
+
+## My SQL
+### 基礎用語
+<details>
+<summary>SQL</summary>
+
+読み方は「シーケル」，「シークェル」．  
+データベース「言語」の1つ．  
+データベースの定義や操作を行うことができる．  
+SQLはISO（国際標準化機構）で規格が標準化されているので他のデータベースでも同様に操作ができる．
+
+### Example
+- Oracle Database (Oracle社)
+- Microsoft SQL Server (Microsoft社)
+- My SQL (オープンソース)
+- Postgre SQL (オープンソース)
+
+</details>
+
+<details>
+<summary>DSN</summary>
+
+DSNとは，データベース（DB）につけられる名前のこと．  
+SQLサーバは世界中にたくさんある．  
+    -> その中でアクセスしたいサーバに名前をつけてアクセスしやすくする．
+</details>
+
+<details>
+<summary>CRUD</summary>
+CRUD（クラッド）は  
+Create, Read, Update, Delete  
+の4機能を組み合わせたもの．（データ操作に必要最低限の機能）
+</details>
+
+<details>
+<summary>PDO</summary>
+
+PDO(PHP Data Object)はPHPからデータベースへのアクセスを抽象化する．
+データベースには様々な種類がある（My SQLやPostgre SQLなど）．  
+これらの種類が異なるデータベースであっても同じように操作するために作られたのがPDO．  
+PDOはクラスで実装されているため，実行するためにはインスタンスを生成する必要がある，
+</details>
+
+### Code
+<details>
+<summary></summary>
+
+
+</details>
+
+
 
 
 
