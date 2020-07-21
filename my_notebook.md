@@ -460,8 +460,140 @@ table_option:
 引用：https://uxmilk.jp/12787
 </details>
 
+<details>
+<summary>SHOW構文</summary>
 
+作成されているテーブルやその詳細を確認する．
+### Example
+```
+$sql ='SHOW TABLES';
+$result = $pdo -> query($sql);
+foreach ($result as $row){
+    echo $row[0];
+    echo '<br>';
+}
+```
 
+#### テーブルの詳細を表示する場合
+> 指定されたテーブルを作成する`CREATE TABLE`ステートメントを表示する．
+```
+$sql ='SHOW CREATE TABLE tbtest';
+$result = $pdo -> query($sql);
+foreach ($result as $row){
+    echo $row[1];
+}
+echo "<hr>";
+```
+</details>
+
+<details>
+<summary>INSERT構文</summary>
+
+### Example
+```
+$sql = $pdo -> prepare("INSERT INTO テーブル名 (name, comment) VALUES (:name, :comment)");
+$sql -> bindParam(':name', $name, PDO::PARAM_STR);
+$sql -> bindParam(':comment', $comment, PDO::PARAM_STR);
+$name = '名無し';
+$comment = 'コメント';
+$sql -> execute();
+```
+`prepare`でSQLを準備する．
+テーブル名(name, comment)に対してVALUES (:name, :value) を与えている．
+これにより，nameやvalueを変数のように与えることができる．
+`bindParam`で変数を用いてVALUESに値を代入．
+最後の`execute`で，最初に`prepare`したSQLを実行する．
+
+### Reference
+[PDOでインサートする](https://qiita.com/tabo_purify/items/0a69fd48018c4ebfd2f2)
+</details>
+
+<details>
+<summary>bindParam</summary>
+
+### Example
+```
+$sql -> bindParam(':name', $name, PDO::PARAM_STR);
+$sql -> bindParam(':age', $age, PDO::PARAM_INT);
+```
+「変数」を:nameや:ageにバインドすることができる．
+
+### Reference
+[PDOでインサートする](https://qiita.com/tabo_purify/items/0a69fd48018c4ebfd2f2)
+</details>
+
+<details>
+<summary>bindValue</summary>
+
+`
+$sql -> bindParam(':age', 20, PDO::PARAM_STR);
+`
+「値」をバインドする．
+
+### Reference
+[PDOでインサートする](https://qiita.com/tabo_purify/items/0a69fd48018c4ebfd2f2)
+</details>
+
+<details>
+<summary>データの抽出(WHERE)</summary>
+
+### Example
+```
+$id = 1 ; // idがこの値のデータだけを抽出したい、とする
+
+$sql = 'SELECT * FROM tbtest WHERE id=:id ';
+$stmt = $pdo->prepare($sql);                  // ←差し替えるパラメータを含めて記述したSQLを準備し、
+$stmt->bindParam(':id', $id, PDO::PARAM_INT); // ←その差し替えるパラメータの値を指定してから、
+$stmt->execute();                             // ←SQLを実行する。
+$results = $stmt->fetchAll(); 
+    foreach ($results as $row){
+        //$rowの中にはテーブルのカラム名が入る
+        echo $row['id'].',';
+        echo $row['name'].',';
+        echo $row['comment'].'<br>';
+    echo "<hr>";
+    }
+```
+</details>
+
+<details>
+<summary>UPDATE構文</summary>
+
+### Example
+```
+$id = 1; //変更する投稿番号
+$new_name = "（変更したい名前）";
+$new_comment_prev = "（変更したいコメント）"; //変更したい名前、変更したいコメントは自分で決めること
+$sql = 'UPDATE tbtest SET name=:name,comment=:comment WHERE id=:id';
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':name', $new_name, PDO::PARAM_STR);
+$stmt->bindParam(':comment', $new_comment, PDO::PARAM_STR);
+$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt->execute();
+```
+</details>
+
+<details>
+<summary>DELETE構文</summary>
+
+### Example
+```
+$id = 2;
+$sql = 'delete from tbtest where id=:id';
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt->execute();
+```
+</details>
+
+<details>
+<summary>SELECT構文</summary>
+
+### Example
+```
+
+```
+</details>
 
 
 
@@ -469,6 +601,9 @@ table_option:
 <details>
 <summary>title</summary>
 
+### Example
+```
 
+```
 </details>
 
