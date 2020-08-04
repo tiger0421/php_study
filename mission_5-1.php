@@ -1,45 +1,36 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>mission_5-1</title>
-</head>
-<body>
-    <form action="" method="post">
-        <input type="str" name="name" value="名無し" placeholder="名前を入力してください">
-        <input type="str" name="comment" value="コメント" placeholder="文字を入力してください">
-        <input type="str" name="pass" placeholder="パスワードを入力してください">
-        <input type="submit" name="submit">
-    </form>
-    <form action="" method="post">
-        <input type="number" name="del_num" placeholder="削除したい番号を入力してください">
-        <input type="str" name="pass" placeholder="パスワードを入力してください">
-        <input type="submit" name="submit">
-    </form>
-    <form action="" method="post">
-        <input type="number" name="edit_num" placeholder="編集したい番号を入力してください">
-        <input type="str" name="edit_comment" value="編集" placeholder="編集内容を入力してください">
-        <input type="str" name="pass" placeholder="パスワードを入力してください">
-        <input type="submit" name="submit">
-    </form>
 
+<html lang="ja">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>mission_5-1</title>
+
+</head>
+
+<body>
 
     <?php
         $post_flg = false;
         $del_flg = false;
         $edit_flg = false;
+        $show_details_flg = false;
+        $all_delete_flg = false;
+        $edit_select_flg = false;
         $input_name = $_POST["name"];
         $input_comment = $_POST["comment"];
         $input_del_num = $_POST["del_num"];
+        $input_edit_select_num = $_POST["edit_select_num"];
         $input_edit_num = $_POST["edit_num"];
-        $input_edit_comment = $_POST["edit_comment"];
         $input_pass = $_POST["pass"];
-        $phrase = "を受け付けました"."<br><br>";
+        $phrase = "を受け付けました<br>";
 
 // setting for DataBase
-    	$dsn = 'mysql:dbname=DB_NAME;host=localhost';
-	    $user = 'USER';
-	    $password = 'PASSWORD';
+    	$dsn = 'mysql:dbname=tb220234db;host=localhost';
+	    $user = 'tb-220234';
+	    $password = 'nm7j7WB3bm';
 	    $pdo = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
 
 // create table
@@ -48,22 +39,72 @@
 	    . "id INT AUTO_INCREMENT PRIMARY KEY,"
 	    . "name char(32),"
         . "comment TEXT,"
-//        . "time datetime DEFAULT NULL,"
-        . "time TEXT,"
+        . "time DATETIME DEFAULT NULL,"
         . "pass TEXT DEFAULT NULL"
 	    .");";
 	    $stmt = $pdo->query($sql);
-        
+
+
 // if input_data is empty, echo Error
-        if(($input_comment != "") || ($input_name != "")){
+        if(($input_comment != "") && ($input_name != "") && ($input_edit_select_num == 0)){
             $post_flg = true;
         }
-        if(($input_del_num != "") && ($input_pass != "")){
+        elseif(($input_del_num != "") && ($input_pass != "")){
             $del_flg = true;
         }
-        if(($input_edit_num != "") && ($input_pass != "")){
+        elseif($input_edit_num != ""){
+            
+        // search the target comment
+            $sql = 'SELECT * FROM board WHERE id=:id ';
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':id', $input_edit_num, PDO::PARAM_INT);
+            $stmt->execute();
+            $results = $stmt->fetchAll();
+            if(strcmp($results[0]['pass'], $input_pass) == 0){
+                $edit_select_flg = true;
+                $comment_prev = $results[0]['comment'];
+            }
+        }
+        elseif(($input_edit_select_num != 0) && ($input_pass != "")){
             $edit_flg = true;
         }
+        elseif(($input_pass != "") && (isset($_POST["show_details"]))){
+            $show_details_flg = true;
+        }
+        elseif(($input_pass != "") && (isset($_POST["all_delete"]))){
+            $all_delete_flg = true;
+        }
+
+// dispaly form
+        if($edit_select_flg == false){
+             echo '<form action="" method="post">';
+                echo '<input type="hidden" name="edit_select_num" value=0>';
+                echo '<input type="str" name="name" value="名無し" placeholder="名前を入力してください">';
+                echo '<input type="str" name="comment" value="コメント" placeholder="文字を入力してください">';
+                echo '<input type="str" name="pass" placeholder="パスワードを入力してください">';
+                echo '<input type="submit" name="submit">';
+            echo '</form>';
+        }
+        else{
+            echo '<form action="" method="post">';
+                echo '<input type="hidden" name="edit_select_num" value='.$input_edit_num.'>';
+                echo '<input type="str" name="name" value="名無し" placeholder="名前を入力してください">';
+                echo '<input type="str" name="comment" value='.$comment_prev.'>';
+                echo '<input type="str" name="pass" placeholder="パスワードを入力してください">';
+                echo '<input type="submit" name="submit">';
+            echo '</form>';
+        }
+            echo '<form action="" method="post">';
+                echo '<input type="number" name="del_num" placeholder="削除したい番号を入力してください">';
+                echo '<input type="str" name="pass" placeholder="パスワードを入力してください">';
+                echo '<input type="submit" name="submit">';
+            echo '</form>';
+
+            echo '<form action="" method="post">';
+                echo '<input type="number" name="edit_num" placeholder="編集したい番号を入力してください">';
+                echo '<input type="str" name="pass" placeholder="パスワードを入力してください">';
+                echo '<input type="submit" name="submit">';
+            echo '</form>';
 
 // write a record
         if($post_flg == true){
@@ -92,7 +133,6 @@
                     $stmt->execute();
                 }
             }
-           
         }
 
 // edit a line
@@ -100,28 +140,52 @@
             $current_time = date("Y/m/d H:i:s");
             $sql = 'SELECT * FROM board WHERE id=:id ';
             $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':id', $input_edit_num, PDO::PARAM_INT);
+            $stmt->bindParam(':id', $input_edit_select_num, PDO::PARAM_INT);
             $stmt->execute();
-            $results = $stmt->fetchAll(); 
+            $results = $stmt->fetchAll();
             foreach ($results as $row){
-                if(strcmp($row['pass'], $input_pass) == 0){
-                    echo $row['name']."<br>";
-                    $sql = 'UPDATE board SET name=:name, comment=:comment, time=:time, pass=:pass WHERE id=:id';
-                    $stmt = $pdo->prepare($sql);
-                    $stmt->bindParam(':id', $row['id'], PDO::PARAM_INT);
-                    $stmt->bindParam(':name', $row['name'], PDO::PARAM_STR);
-                    $stmt->bindParam(':comment', $input_edit_comment, PDO::PARAM_STR);
-                    $stmt->bindParam(':time', $current_time, PDO::PARAM_STR);
-                    $stmt->bindParam(':pass', $input_pass, PDO::PARAM_STR);
-                    $stmt->execute();
-                }
+                $sql = 'UPDATE board SET name=:name, comment=:comment, time=:time, pass=:pass WHERE id=:id';
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':id', $row['id'], PDO::PARAM_INT);
+                $stmt->bindParam(':name', $row['name'], PDO::PARAM_STR);
+                $stmt->bindParam(':comment', $input_comment, PDO::PARAM_STR);
+                $stmt->bindParam(':time', $current_time, PDO::PARAM_STR);
+                $stmt->bindParam(':pass', $input_pass, PDO::PARAM_STR);
+                $stmt->execute();
             }
+        }
+
+// show table
+        elseif($show_details_flg == true){
+            echo "table list<br><br>";
+        	$sql ='SHOW TABLES';
+	        $result = $pdo -> query($sql);
+	        foreach ($result as $row){
+		        echo $row[0];
+		        echo "<br>";
+	        }
+	        echo "<hr>";
+	        echo "table details<br><br>";
+	        $sql ='SHOW CREATE TABLE board';
+	        $result = $pdo -> query($sql);
+        	foreach ($result as $row){
+		        echo $row[1];
+	        }
+	        echo "<hr>";
+        }
+
+// drop table
+        elseif($all_delete_flg == true){
+            echo "table is dropped<br>";
+            $sql = 'DROP TABLE board';
+		    $stmt = $pdo->query($sql);
         }
 
 //display table
         $sql = 'SELECT * FROM board';
         $stmt = $pdo->query($sql);
         $results = $stmt->fetchAll();
+        echo "<br>";
         foreach($results as $row){
             echo $row['id'].',';
             echo $row['name'].',';
@@ -129,7 +193,6 @@
             echo $row['time'].'<br>';
         }
         echo "<hr>";
-
     ?>
 </body>
 </html>
