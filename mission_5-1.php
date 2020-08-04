@@ -23,8 +23,8 @@
 
 // setting for DataBase
     	$dsn = 'mysql:dbname=tb220234db;host=localhost';
-	    $user = 'tb-220234';
-	    $password = 'nm7j7WB3bm';
+	    $user = USER;
+	    $password = PASSWORD;
 	    $pdo = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
 
 // create table
