@@ -1,15 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="ja">
-
 <head>
-
     <meta charset="UTF-8">
-
     <title>mission_5-1</title>
-
 </head>
-
 <body>
 
     <?php
